@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/css/test.css" />
+  <title>Fellowships — Demo</title>
+</head>
+
+<body>
+  <!-- top utility bar -->
+  <div class="topbar">
+    <div class="container">
+      <div>📢 Latest Notification</div>
+      <div class="links">
+        <a href="#">Latest Events</a>
+        <a href="#">MIC</a>
+        <a href="#">All India DIC</a>
+        <a href="#">Career</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- logo / partner strip -->
+  <div class="logostrip">
+    <div class="container">
+      <div class="brand">
+        <!-- replace src with your logo -->
+        <img src="https://via.placeholder.com/260x62?text=Design+Innovation+Centre" alt="logo">
+        <div style="font-size:16px;line-height:1.05">
+          <div style="font-weight:700;color:#d12b2b">DIC</div>
+          <div style="font-size:13px;color:#333">THE DESIGN INNOVATION CENTRE (DIC)</div>
+        </div>
+      </div>
+
+      <div class="partners" aria-hidden="true">
+        <!-- partner logos -->
+        <img src="https://via.placeholder.com/150x48?text=BHU" alt="">
+        <img src="https://via.placeholder.com/160x48?text=IIT+BHU" alt="">
+        <img src="https://via.placeholder.com/160x48?text=Ministry" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- navigation -->
+  <div class="navwrap">
+    <div class="container">
+      <nav class="navbar" role="navigation" aria-label="Main">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false">☰</button>
+        <div class="nav-links" id="navLinks">
+          <a href="#">HOME</a>
+          <a href="#">ABOUT</a>
+          <!-- <a href="#">ALL INDIA DIC</a> -->
+          <a href="#">WE PROVIDE</a>
+          <a href="#">OUR WORK</a>
+          <a href="#">EXPLORE MORE</a>
+          <a href="#">CONNECT WITH US</a>
+        </div>
+        <div class="nav-right">
+          <!-- small social icons -->
+          <a href="#" aria-label="facebook">f</a>
+          <a href="#" aria-label="twitter">t</a>
+          <a href="#" aria-label="linkedin">in</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- mobile menu (hidden on desktop) -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#">HOME</a>
+      <a href="#">ABOUT</a>
+      <a href="#">PROGRAM</a>
+      <a href="#">EVENTS</a>
+      <a href="#">CONTACT</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero" style="background-image: url('hero.jpg');">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <h1>Fellowships</h1>
+        <div class="subtitle">DIC SPPU &amp; IIT (BHU)</div>
+        <div class="breadcrumb">Home &nbsp; - &nbsp; Fellowships</div>
+      </div>
+
+      <div class="hero-right">
+        <button class="events-btn" onclick="location.href='#events'">Latest Events</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- main content -->
+  <main>
+    <div class="container">
+      <h2 class="page-title">Fellowships</h2>
+
+      <p>
+        <!-- sample content -->
+        This is placeholder content for the Fellowships page. Replace this with real content.
+      </p>
+
+      <section id="events" style="margin-top:32px">
+        <h3>Latest Events</h3>
+        <ul>
+          <li>Event 1 — Date</li>
+          <li>Event 2 — Date</li>
+          <li>Event 3 — Date</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    navToggle.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open);
+    });
+
+    // ensure hero and content spacing if header sizes change
+    function setHeroPadding() {
+      // optionally adjust hero min-height or other CSS vars if needed
+      // currently not used, but kept for easy extension
+    }
+    window.addEventListener('resize', setHeroPadding);
+  </script>
+</body>
+
+</html>
