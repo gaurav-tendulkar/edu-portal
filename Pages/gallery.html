@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/header.css">
+  <title>Document</title>
+
+  <style>
+/* Scoped gallery CSS — only affects elements inside .gallery-section */
+.gallery-section { --gap:16px; --accent:#0b6efd; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; color:#111; padding:18px; box-sizing:border-box; }
+
+.gallery-section .wrap { max-width:1150px; margin:0 auto; }
+.gallery-section .header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+.gallery-section .title { font-size:22px; color:var(--accent); margin:0; }
+.gallery-section .subtitle { margin:0;color:#6b7280;font-size:14px; }
+
+/* Grid */
+.gallery-section .grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--gap);
+  align-items:stretch;
+}
+
+/* card */
+.gallery-section .item {
+  border-radius:10px;
+  overflow:hidden;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(15,23,42,0.06);
+  display:block;
+  cursor: pointer;
+  position:relative;
+  height: 0;
+  padding-bottom: 66%; /* 3:2 aspect */
+}
+
+.gallery-section .thumb {
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+  transition: transform .28s ease, opacity .2s ease;
+}
+.gallery-section .item:hover .thumb { transform: scale(1.04); }
+
+/* caption overlay */
+.gallery-section .caption {
+  position:absolute;
+  left:8px; right:8px; bottom:8px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.42) 60%);
+  color:#fff;
+  padding:6px 8px;
+  border-radius:8px;
+  font-size:13px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  opacity:0;
+  transition: opacity .18s ease;
+}
+.gallery-section .item:hover .caption { opacity:1; }
+
+/* lightbox modal (fixed, centered) */
+.gallery-section .lb-overlay {
+  position:fixed;
+  inset:0;
+  display:none;
+  background: rgba(0,0,0,0.75);
+  align-items:center;
+  justify-content:center;
+  z-index:1200;
+  padding:18px;
+}
+.gallery-section .lb-overlay.open { display:flex; }
+
+.gallery-section .lb-inner {
+  max-width:1100px;
+  width:100%;
+  max-height:90vh;
+  background: #111;
+  border-radius:10px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+/* image container */
+.gallery-section .lb-media {
+  flex:1 1 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#000;
+}
+.gallery-section .lb-media img {
+  max-width:100%;
+  max-height:90vh;
+  width:auto;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+
+/* controls bar */
+.gallery-section .lb-controls {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.12));
+}
+.gallery-section .lb-controls .meta { color:#eee; font-size:14px; }
+.gallery-section .lb-controls button {
+  background:transparent; border:0; color:#fff; font-size:18px; cursor:pointer; padding:8px 10px; border-radius:6px;
+}
+.gallery-section .lb-controls button:focus { outline:2px solid rgba(255,255,255,0.12); }
+
+/* nav arrows */
+.gallery-section .lb-nav {
+  position:absolute; inset:0; pointer-events:none;
+}
+.gallery-section .lb-arrow {
+  position:absolute; top:50%; transform:translateY(-50%);
+  pointer-events:auto;
+  background: rgba(0,0,0,0.35);
+  color:#fff; border:0; width:48px; height:48px; border-radius:8px; font-size:20px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+.gallery-section .lb-arrow.prev { left:12px; }
+.gallery-section .lb-arrow.next { right:12px; }
+
+/* responsive tweaks */
+@media (max-width:640px) {
+  .gallery-section .grid { gap:12px; }
+  .gallery-section .item { padding-bottom:74%; } /* taller on small screens */
+  .gallery-section .lb-controls { font-size:13px; padding:8px; }
+  .gallery-section .lb-arrow { width:40px; height:40px; font-size:18px; }
+}
+</style>
+</head>
+<body>
+<!-- ========================== HEADER START ===========================================  -->
+  <!-- top utility bar -->
+  <div class="topbar">
+    <div class="container">
+      <div>📢 Latest Notification</div>
+      <div class="links">
+        <a href="#">Latest Events</a>
+        <a href="#">MIC</a>
+        <a href="#">All India DIC</a>
+        <a href="#">Career</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- logo / partner strip -->
+  <div class="logostrip">
+    <div class="container">
+      <div class="brand">
+        <!-- replace src with your logo -->
+        <img src="https://via.placeholder.com/260x62?text=Design+Innovation+Centre" alt="logo">
+        <div style="font-size:16px;line-height:1.05">
+          <div style="font-weight:700;color:#d12b2b">DIC</div>
+          <div style="font-size:13px;color:#333">THE DESIGN INNOVATION CENTRE (DIC)</div>
+        </div>
+      </div>
+
+      <div class="partners" aria-hidden="true">
+        <!-- partner logos -->
+        <img src="https://via.placeholder.com/150x48?text=BHU" alt="test">
+        <img src="https://via.placeholder.com/160x48?text=IIT+BHU" alt="test">
+        <img src="https://via.placeholder.com/160x48?text=Ministry" alt="test">
+      </div>
+    </div>
+  </div>
+
+  <!-- navigation -->
+  <div class="navwrap">
+    <div class="container">
+      <nav class="navbar" role="navigation" aria-label="Main">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false">☰</button>
+        <div class="nav-links" id="navLinks">
+          <a href="../index.html" class="subfield">HOME</a>
+
+          <div class="nav-dropdown">
+            <a href="#">ABOUT ORGANIZATION </a>
+            <div class="dropdown-menu">
+              <a href="/Pages/iic.html" class="subfield">IIC</a>
+
+            </div>
+          </div>
+          <!-- <a href="#">ALL INDIA DIC</a> -->
+          <div class="nav-dropdown">
+            <a href="#">WE PROVIDE</a>
+            <div class="dropdown-menu">
+              <a href="/Pages/services.html" class="subfield">Services </a>
+              <a href="/Pages/course.html" class="subfield">Course</a>
+              <a href="/Pages/others.html" class="subfield">others</a>
+            </div>
+          </div>
+
+          <div class="nav-dropdown">
+            <a href="#">OUR WORK</a>
+            <div class="dropdown-menu">
+              <a href="/Pages/project.html" class="subfield">Project</a>
+              <a href="/Pages/market_ready_project.html" class="subfield">Market Ready Product</a>
+              <a href="/Pages/start_up.html" class="subfield">Start Up</a>
+            </div>
+          </div>
+
+          <div class="nav-dropdown">
+            <a href="#">EXPLORE MORE</a>
+            <div class="dropdown-menu">
+              <a href="/Pages/gallery.html" class="subfield">Gallery</a>
+              <a href="/Pages/activities_events.html" class="subfield">Activities & Events</a>
+              <a href="/Pages/press_release.html" class="subfield">Press Release </a>
+            </div>
+          </div>
+          <a href="/Pages/connect_with_us.html" class="subfield">CONNECT WITH US</a>
+        </div>
+        <div class="nav-right">
+          <!-- small social icons -->
+          <a href="#" aria-label="facebook">f</a>
+          <a href="#" aria-label="twitter">t</a>
+          <a href="https://www.linkedin.com/company/design-innovation-centre-sppu/" target="_blank"
+            aria-label="linkedin">in</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- mobile menu (hidden on desktop) -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#">HOME</a>
+      <a href="#">ABOUT</a>
+      <a href="#">PROGRAM</a>
+      <a href="#">EVENTS</a>
+      <a href="#">CONTACT</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero" style="background-image: url('hero.jpg');">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <h1 id="pageTitle">Gallery</h1>
+        <div class="subtitle">DIC SPPU</div>
+        <div class="breadcrumb">Home &nbsp; - &nbsp; Gallery</div>
+      </div>
+    </div>
+  </section>
+  <!-- ========================== HEADER END ===========================================  -->
+
+
+  <main class="gallery-section" aria-label="Image gallery">
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <h1 class="title">Gallery</h1>
+        <p class="subtitle">test subtitle </p>
+      </div>
+      <div style="font-size:13px;color:#6b7280;">DIC SPPU</div>
+    </div>
+
+    <div class="grid" id="galleryGrid">
+
+      <!-- Replace src values with your actual image paths -->
+      <div class="item" tabindex="0" data-index="0" data-title="Image 1">
+        <img class="thumb" src="../images/IMG-20251208-WA0076.jpg" alt="Image 1">
+        <div class="caption"><span>Image 1</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="1" data-title="Image 2">
+        <img class="thumb" src="../images/IMG-20251208-WA0077.jpg" alt="Image 2">
+        <div class="caption"><span>Image 2</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="2" data-title="Image 3">
+        <img class="thumb" src="../images/IMG-20251208-WA0078.jpg" alt="Image 3">
+        <div class="caption"><span>Image 3</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="3" data-title="Image 4">
+        <img class="thumb" src="../images/IMG-20251208-WA0079.jpg" alt="Image 4">
+        <div class="caption"><span>Image 4</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="4" data-title="Image 5">
+        <img class="thumb" src="../images/IMG-20251208-WA0080.jpg" alt="Image 5">
+        <div class="caption"><span>Image 5</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="5" data-title="Image 6">
+        <img class="thumb" src="../images/IMG-20251208-WA0081.jpg" alt="Image 6">
+        <div class="caption"><span>Image 6</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="6" data-title="Image 7">
+        <img class="thumb" src="../images/IMG-20251208-WA0082.jpg" alt="Image 7">
+        <div class="caption"><span>Image 7</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="7" data-title="Image 8">
+        <img class="thumb" src="../images/IMG-20251208-WA0083.jpg" alt="Image 8">
+        <div class="caption"><span>Image 8</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="8" data-title="Image 9">
+        <img class="thumb" src="../images/IMG-20251208-WA0084.jpg" alt="Image 9">
+        <div class="caption"><span>Image 9</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="9" data-title="Image 10">
+        <img class="thumb" src="../images/IMG-20251208-WA0085.jpg" alt="Image 10">
+        <div class="caption"><span>Image 10</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="10" data-title="Image 11">
+        <img class="thumb" src="../images/IMG-20251208-WA0086.jpg" alt="Image 11">
+        <div class="caption"><span>Image 11</span><small>View</small></div>
+      </div>
+
+      <div class="item" tabindex="0" data-index="11" data-title="Image 12">
+        <img class="thumb" src="../images/IMG-20251208-WA0086.jpg" alt="Image 12">
+        <div class="caption"><span>Image 11</span><small>View</small></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lb-overlay" id="lbOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lb-inner" role="document">
+      <div class="lb-media" id="lbMedia" aria-live="polite">
+        <img id="lbImage" src="" alt="">
+        <div class="lb-nav">
+          <button class="lb-arrow prev" id="lbPrev" aria-label="Previous image">‹</button>
+          <button class="lb-arrow next" id="lbNext" aria-label="Next image">›</button>
+        </div>
+      </div>
+      <div class="lb-controls">
+        <div class="meta" id="lbMeta">Image title</div>
+        <div>
+          <button id="lbClose" aria-label="Close gallery">Close ✕</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+  
+<script>
+/* Scoped gallery JS — operates only inside .gallery-section */
+(function(){
+  const root = document.querySelector('.gallery-section');
+  if (!root) return;
+
+  const items = Array.from(root.querySelectorAll('.item'));
+  const overlay = root.querySelector('#lbOverlay');
+  const lbImage = root.querySelector('#lbImage');
+  const lbMeta = root.querySelector('#lbMeta');
+  const lbClose = root.querySelector('#lbClose');
+  const lbPrev = root.querySelector('#lbPrev');
+  const lbNext = root.querySelector('#lbNext');
+
+  let currentIndex = -1;
+
+  function openLightbox(index){
+    const item = items[index];
+    if (!item) return;
+    const img = item.querySelector('.thumb');
+    lbImage.src = img.src;
+    lbImage.alt = img.alt || item.dataset.title || `Image ${index+1}`;
+    lbMeta.textContent = item.dataset.title || img.alt || `Image ${index+1}`;
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden','false');
+    currentIndex = index;
+    // trap focus: focus close button
+    lbClose.focus();
+  }
+
+  function closeLightbox(){
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden','true');
+    lbImage.src = '';
+    currentIndex = -1;
+  }
+
+  function showPrev(){
+    if (currentIndex <= 0) openLightbox(items.length - 1);
+    else openLightbox(currentIndex - 1);
+  }
+  function showNext(){
+    if (currentIndex >= items.length - 1) openLightbox(0);
+    else openLightbox(currentIndex + 1);
+  }
+
+  // click on grid items
+  items.forEach((it, idx) => {
+    it.addEventListener('click', ()=> openLightbox(idx));
+    it.addEventListener('keydown', (e)=> {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(idx); }
+    });
+  });
+
+  // controls
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', showPrev);
+  lbNext.addEventListener('click', showNext);
+
+  // keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+
+  // click overlay to close (but not when clicking inner content)
+  overlay.addEventListener('click', (e)=> {
+    if (e.target === overlay) closeLightbox();
+  });
+
+  // graceful fallback for missing images
+  root.querySelectorAll('.thumb').forEach(img=>{
+    img.addEventListener('error', ()=> {
+      img.style.display = 'none';
+      const parent = img.closest('.item');
+      if (parent) parent.style.display = 'none';
+    });
+  });
+})();
+</script>
+</body>
+</html>

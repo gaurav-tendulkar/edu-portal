@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* MOVABLE HEADER — namespaced to avoid global conflicts (selectors renamed only) */
+
+    /* topbar / logostrip / navwrap */
+    .sh-topbar,
+    .sh-logostrip,
+    .sh-navwrap {
+      position: relative;
+      width: 100%;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .sh-topbar {
+      top: auto;
+    }
+
+    .sh-logostrip {
+      top: auto;
+    }
+
+    .sh-navwrap {
+      top: auto;
+    }
+
+    /* No top margin needed since header is not fixed */
+    .sh-hero {
+      margin-top: 0;
+    }
+
+    /* Scoped box-sizing applied only to header elements (no global *) */
+    .sh-topbar *,
+    .sh-topbar *::before,
+    .sh-topbar *::after,
+    .sh-logostrip *,
+    .sh-logostrip *::before,
+    .sh-logostrip *::after,
+    .sh-navwrap *,
+    .sh-navwrap *::before,
+    .sh-navwrap *::after,
+    .sh-hero *,
+    .sh-hero *::before,
+    .sh-hero *::after {
+      box-sizing: border-box;
+    }
+
+    /* Scoped font + color only for header area */
+    .sh-topbar,
+    .sh-logostrip,
+    .sh-navwrap,
+    .sh-hero {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #222;
+    }
+
+    /* scoped link defaults (won't affect global <a>) */
+    .sh-topbar a,
+    .sh-logostrip a,
+    .sh-navwrap a,
+    .sh-hero a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* container scoped for header */
+    .sh-container {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Top utility bar */
+    .sh-topbar {
+      background: #0b33b3;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .sh-topbar .sh-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      height: 44px;
+    }
+
+    .sh-topbar .sh-links {
+      margin-left: auto;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .sh-topbar .sh-links a {
+      opacity: .95;
+    }
+
+    /* Logo strip */
+    .sh-logostrip {
+      background: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .sh-logostrip .sh-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 90px;
+    }
+
+    .sh-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sh-brand img {
+      height: 62px;
+      object-fit: contain;
+    }
+
+    .sh-partners {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .sh-partners img {
+      height: 48px;
+      opacity: .95;
+    }
+
+    /* Navigation bar */
+    .sh-navwrap {
+      background: #b214a9;
+    }
+
+    nav.sh-navbar {
+      display: flex;
+      align-items: center;
+      height: 56px;
+      color: #fff;
+    }
+
+    .sh-nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      padding-left: 20px;
+    }
+
+    .sh-nav-links a {
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+
+    .sh-nav-right {
+      margin-left: auto;
+      padding-right: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* mobile menu button */
+    .sh-nav-toggle {
+      display: none;
+      background: none;
+      border: 0;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      padding: 6px 10px;
+    }
+
+    /* DROPDOWN MENU STYLING */
+    .sh-nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .sh-nav-dropdown>a {
+      text-decoration: none;
+      padding: 10px 14px;
+      display: inline-block;
+      color: #faf8f8;
+      font-weight: 600;
+    }
+
+    .sh-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 180px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      border-radius: 6px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: 0.3s ease;
+      z-index: 999;
+    }
+
+    .sh-dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .sh-dropdown-menu a:hover {
+      background: #d12b2b;
+      color: white;
+    }
+
+    /* SHOW ON HOVER */
+    .sh-nav-dropdown:hover .sh-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    /* HERO */
+    .sh-hero {
+      position: relative;
+      min-height: 200px;
+      display: flex;
+      align-items: flex-end;
+      color: #fff;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* dark overlay */
+    .sh-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.45) 40%, rgba(0, 0, 0, 0.35) 100%);
+      pointer-events: none;
+    }
+
+    .sh-hero-inner {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: 40px 0 56px;
+    }
+
+    .sh-hero-left {
+      width: 70%;
+      padding-left: 40px;
+    }
+
+    .sh-hero h1 {
+      font-size: 48px;
+      margin: 0 0 8px;
+      line-height: 1;
+    }
+
+    .sh-hero .sh-subtitle {
+      font-size: 18px;
+      opacity: .95;
+      margin-bottom: 18px;
+    }
+
+    .sh-breadcrumb {
+      color: rgba(255, 255, 255, 0.9);
+      opacity: .95;
+      font-size: 14px;
+    }
+
+    /* Latest Events button positioned inside hero on right */
+    .sh-hero-right {
+      width: 30%;
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 40px;
+    }
+
+    .sh-events-btn {
+      background: #ff6c00;
+      color: #fff;
+      padding: 14px 26px;
+      border-radius: 4px;
+      border: 0;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(255, 108, 0, 0.18);
+      align-self: flex-end;
+    }
+
+    /* remove main styling so site main is untouched */
+
+    /* page-title (scoped) */
+    .sh-page-title {
+      font-size: 28px;
+      margin: 0 0 24px;
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .sh-hero-left {
+        width: 65%;
+      }
+
+      .sh-hero h1 {
+        font-size: 40px;
+      }
+
+      .sh-brand img {
+        height: 56px;
+      }
+
+      .sh-logostrip .sh-container {
+        height: 84px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sh-nav-links {
+        display: none;
+      }
+
+      .sh-nav-toggle {
+        display: block;
+      }
+
+      .sh-nav-right {
+        display: none;
+      }
+
+      .sh-hero {
+        min-height: 360px;
+      }
+
+      .sh-hero-left {
+        width: 100%;
+        padding-left: 20px;
+      }
+
+      .sh-hero-right {
+        position: absolute;
+        right: 18px;
+        top: 18px;
+        width: auto;
+      }
+
+      .sh-events-btn {
+        padding: 10px 16px;
+      }
+
+      .sh-hero-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 28px;
+      }
+
+      .sh-hero h1 {
+        font-size: 32px;
+      }
+
+      .sh-hero .sh-subtitle {
+        font-size: 15px;
+      }
+
+      .sh-logostrip .sh-container {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+        height: auto;
+        padding: 14px 20px;
+      }
+    }
+
+    /* mobile expanded menu */
+    .sh-mobile-nav {
+      display: none;
+      background: #b214a9;
+      color: #fff;
+      padding: 12px 20px;
+    }
+
+    .sh-mobile-nav.open {
+      display: block;
+    }
+
+    .sh-mobile-nav a {
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+  </style>
+</head>
+
+<body style="margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#111;background:#fff;">
+  <!-- ========================== HEADER START ===========================================  -->
+  <div class="sh-header-root">
+
+    <!-- top utility bar -->
+    <div class="sh-topbar">
+      <div class="sh-container">
+        <div>📢 Latest Notification</div>
+        <div class="sh-links">
+          <a href="#">Latest Events</a>
+          <a href="#">MIC</a>
+          <a href="#">All India DIC</a>
+          <a href="#">Career</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- logo / partner strip -->
+    <div class="sh-logostrip">
+      <div class="sh-container">
+        <div class="sh-brand">
+          <!-- replace src with your logo -->
+          <img src="https://via.placeholder.com/260x62?text=Design+Innovation+Centre" alt="logo">
+          <div style="font-size:16px;line-height:1.05">
+            <div style="font-weight:700;color:#d12b2b">DIC</div>
+            <div style="font-size:13px;color:#333">THE DESIGN INNOVATION CENTRE (DIC)</div>
+          </div>
+        </div>
+
+        <div class="sh-partners" aria-hidden="true">
+          <!-- partner logos -->
+          <img src="https://via.placeholder.com/150x48?text=BHU" alt="test">
+          <img src="https://via.placeholder.com/160x48?text=IIT+BHU" alt="test">
+          <img src="https://via.placeholder.com/160x48?text=Ministry" alt="test">
+        </div>
+      </div>
+    </div>
+
+    <!-- navigation -->
+    <div class="sh-navwrap">
+      <div class="sh-container">
+        <nav class="sh-navbar" role="navigation" aria-label="Main">
+          <button class="sh-nav-toggle" id="shNavToggle" aria-expanded="false">☰</button>
+          <div class="sh-nav-links" id="shNavLinks">
+            <a href="../index.html" class="sh-subfield">HOME</a>
+
+            <div class="sh-nav-dropdown">
+              <a href="#">ABOUT ORGANIZATION </a>
+              <div class="sh-dropdown-menu">
+                <a href="/Pages/iic.html" class="sh-subfield">IIC</a>
+              </div>
+            </div>
+
+            <div class="sh-nav-dropdown">
+              <a href="#">WE PROVIDE</a>
+              <div class="sh-dropdown-menu">
+                <a href="/Pages/services.html" class="sh-subfield">Services </a>
+                <a href="/Pages/course.html" class="sh-subfield">Course</a>
+                <a href="/Pages/others.html" class="sh-subfield">others</a>
+              </div>
+            </div>
+
+            <div class="sh-nav-dropdown">
+              <a href="#">OUR WORK</a>
+              <div class="sh-dropdown-menu">
+                <a href="/Pages/project.html" class="sh-subfield">Project</a>
+                <a href="/Pages/market_ready_project.html" class="sh-subfield">Market Ready Product</a>
+                <a href="/Pages/start_up.html" class="sh-subfield">Start Up</a>
+              </div>
+            </div>
+
+            <div class="sh-nav-dropdown">
+              <a href="#">EXPLORE MORE</a>
+              <div class="sh-dropdown-menu">
+                <a href="/Pages/gallery.html" class="sh-subfield">Gallery</a>
+                <a href="/Pages/activities_events.html" class="sh-subfield">Activities & Events</a>
+                <a href="/Pages/press_release.html" class="sh-subfield">Press Release </a>
+              </div>
+            </div>
+
+            <a href="/Pages/connect_with_us.html" class="sh-subfield">CONNECT WITH US</a>
+          </div>
+
+          <div class="sh-nav-right">
+            <!-- small social icons -->
+            <a href="#" aria-label="facebook">f</a>
+            <a href="#" aria-label="twitter">t</a>
+            <a href="https://www.linkedin.com/company/design-innovation-centre-sppu/" target="_blank"
+              aria-label="linkedin">in</a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- mobile menu (hidden on desktop) -->
+      <div class="sh-mobile-nav" id="shMobileNav">
+        <a href="#">HOME</a>
+        <a href="#">ABOUT</a>
+        <a href="#">PROGRAM</a>
+        <a href="#">EVENTS</a>
+        <a href="#">CONTACT</a>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="sh-hero" id="shHero" style="background-image: url('hero.jpg');">
+      <div class="sh-container sh-hero-inner">
+        <div class="sh-hero-left">
+          <h1 id="pageTitle">Projects</h1>
+          <div class="sh-subtitle">DIC SPPU</div>
+          <div class="sh-breadcrumb">Home &nbsp; - &nbsp; projects</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <!-- ========================== HEADER END ===========================================  -->
+
+
+
+  
+
+  <main style="max-width:980px;margin:18px auto;padding:18px;box-sizing:border-box;">
+
+    <!-- Page header -->
+    <header style="margin-bottom:18px;">
+      <h1 style="margin:0;font-size:22px;color:#0b6efd;">Market Ready Products</h1>
+      <p style="margin:8px 0 0 0;color:#444;font-size:14px;">Haemadhaar Tablets • Nano-Herbal Kavach • Bascimix</p>
+    </header>
+
+    <!-- HAEMADHAAR -->
+    <section aria-labelledby="haemadhaar" style="border:1px solid #eee;border-radius:10px;padding:14px;margin-bottom:18px;">
+      <h2 id="haemadhaar" style="margin:0 0 8px 0;font-size:18px;color:#d12b2b;">Haemadhaar Tablets</h2>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;">
+        <div style="flex:1 1 320px;min-width:260px;">
+          <img src="sickle cell.png" alt="Haemadhaar - illustration" style="width:100%;height:220px;object-fit:cover;border-radius:8px;display:block;">
+        </div>
+
+        <div style="flex:1 1 420px;min-width:260px;">
+          <p style="margin:0 0 8px 0;font-size:14px;color:#333;">
+            <strong>Indications:</strong> Anemia, Hematinic, Immunity booster, Blood purifier, Hepatoprotective, Anti-oxidant &amp; Anti-sickling (Sickle Cell Anemia).
+          </p>
+
+          <h3 style="margin:10px 0 6px 0;font-size:16px;color:#0b6efd;">Research &amp; Development</h3>
+          <p style="margin:0 0 8px 0;color:#444;font-size:14px;"><strong>Lead:</strong> Prof. (Dr) Pooja J. Doshi &amp; Team, SPPU</p>
+
+          <ul style="margin:8px 0 0 18px;color:#333;font-size:14px;line-height:1.5;">
+            <li>Screening of large number of medicinal plants for anti-sickling properties.</li>
+            <li>RBC &amp; hemoglobin molecular-level characterization using advanced analytical techniques.</li>
+            <li>Efficacy &amp; formulation development.</li>
+            <li>Toxicological &amp; safety studies using animal models.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Formulation -->
+      <div style="margin-top:12px;">
+        <h3 style="margin:8px 0;font-size:15px;color:#0b6efd;">Formulation Contents</h3>
+
+        <div style="margin-top:8px;">
+          <strong>1. Aegle marmelos (Bael leaves)</strong>
+          <p style="margin:6px 0;color:#333;font-size:14px;line-height:1.45;">
+            Helps increase hemoglobin level; protective against infections; improves liver function &amp; digestion.
+          </p>
+        </div>
+
+        <div style="margin-top:8px;">
+          <strong>2. Rubia cardifolia (Manjishtha root)</strong>
+          <p style="margin:6px 0;color:#333;font-size:14px;line-height:1.45;">
+            Blood purifier; improves immunity, liver &amp; kidney function. Key component <em>Alizarin</em> identified as a potent anti-sickling agent.
+          </p>
+        </div>
+
+        <div style="margin-top:8px;">
+          <strong>3. Punica granatum (Pomegranate bark)</strong>
+          <p style="margin:6px 0;color:#333;font-size:14px;line-height:1.45;">
+            Immunity enhancer; supports heart function; useful adjunct in cancer &amp; diabetes contexts.
+          </p>
+        </div>
+      </div>
+
+      <!-- Post marketing highlights -->
+      <div style="margin-top:12px;">
+        <h3 style="margin:8px 0;font-size:15px;color:#222;">Post-Marketing Clinical Surveillance — Highlights</h3>
+        <ul style="margin:8px 0 0 18px;color:#333;font-size:14px;line-height:1.6;">
+          <li>Improvement in hemoglobin levels.</li>
+          <li>Reduction in sickle cell crises and associated pain.</li>
+          <li>Conversion of sickled RBCs to normal RBCs.</li>
+          <li>Improved liver function (SGPT/SGOT) and reduced bilirubin.</li>
+          <li>Improved kidney function and creatinine levels.</li>
+          <li>No reported side effects in monitored subjects.</li>
+        </ul>
+
+        <div style="margin-top:10px;">
+          <img src="red_blood.jpg" alt="Red blood improvement" style="width:180px;height:110px;object-fit:cover;border-radius:6px;margin-right:12px;display:inline-block;">
+        </div>
+      </div>
+
+      <!-- contact -->
+      <div style="margin-top:12px;border-top:1px dashed #eee;padding-top:10px;">
+        <strong>Inventor &amp; Team Leader:</strong>
+        <div style="margin-top:6px;font-size:14px;color:#333;">Prof. (Dr) Pooja J. Doshi — Department of Chemistry, SPPU</div>
+        <div style="margin-top:6px;font-size:14px;color:#0b6efd;"><strong>Contact:</strong> <a href="tel:+919545588772" style="color:#0b6efd;text-decoration:none;">+91 95455 88772</a></div>
+        <div style="margin-top:6px;font-size:14px;color:#0b6efd;"><strong>Email:</strong> <a href="mailto:doshipj74@gmail.com" style="color:#0b6efd;text-decoration:none;">doshipj74@gmail.com</a></div>
+      </div>
+    </section>
+
+    <!-- NANO-HERBAL KAVACH -->
+    <section aria-labelledby="kavach" style="border:1px solid #eee;border-radius:10px;padding:14px;margin-bottom:18px;">
+      <h2 id="kavach" style="margin:0 0 8px 0;font-size:18px;color:#d12b2b;">Nano-Herbal Kavach</h2>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div style="flex:1 1 320px;min-width:260px;">
+          <p style="margin:0 0 8px 0;color:#333;font-size:14px;"><strong>Hybrid disinfectant for extended protection of open surfaces</strong></p>
+          <p style="margin:6px 0;color:#444;font-size:13px;">R&amp;D: Krishna Vishwa Vidyapeeth, Karad &amp; DIC SPPU, Pune</p>
+          <p style="margin:6px 0;color:#444;font-size:13px;">Funded by: Design Innovation Centre, SPPU, Pune</p>
+          <p style="margin:6px 0;color:#444;font-size:13px;">Manufactured by: Nano Research Lab, Gopalpur, Jharkhand</p>
+          <div style="margin-top:10px;">
+            <img src="nano1.png" alt="Nano-Herbal Kavach" style="width:100%;height:200px;object-fit:cover;border-radius:8px;display:block;">
+          </div>
+        </div>
+
+        <div style="flex:1 1 420px;min-width:260px;">
+          <h3 style="margin:0 0 8px 0;font-size:16px;color:#0b6efd;">Product Features</h3>
+          <ul style="margin:8px 0 0 18px;color:#333;font-size:14px;line-height:1.5;">
+            <li>Nano-herbal formulation with antibacterial, antifungal and antiviral properties.</li>
+            <li>Eco-friendly, non-toxic and aromatic.</li>
+            <li>Special applicator “Cleaning Pod” for effective sanitization of grills and other surfaces.</li>
+          </ul>
+
+          <h3 style="margin:12px 0 8px 0;font-size:16px;color:#0b6efd;">Description</h3>
+          <p style="margin:0;color:#444;font-size:14px;line-height:1.5;">
+            Conventional surface sanitization removes germs once but does not keep surfaces protected. The Cleaning Pod (adjustable case + sponge saturated with nano-herbal formulation) enables quick, precise, low-manpower sanitization and leaves a thin adherent coating for extended protection on frequently touched public surfaces (rails, handles, trolleys).
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <h4 style="margin:0 0 8px 0;font-size:15px;color:#222;">Advantages</h4>
+        <ol style="margin:0 0 0 18px;color:#333;font-size:14px;line-height:1.6;">
+          <li>Thin coating can be applied on any surface.</li>
+          <li>Nano materials provide strong surface adhesion.</li>
+          <li>Customizable formulation per use-case.</li>
+          <li>Recommended for public places, hospitals, travel hubs and sanitation workers.</li>
+          <li>Broad-spectrum antimicrobial activity.</li>
+          <li>Pleasant herbal aroma.</li>
+        </ol>
+      </div>
+
+      <div style="margin-top:10px;">
+        <img src="nano.png" alt="Kavach small" style="width:120px;height:80px;object-fit:cover;border-radius:6px;display:inline-block;margin-right:12px;">
+      </div>
+    </section>
+
+    <!-- BASCIMIX -->
+    <section aria-labelledby="bascimix" style="border:1px solid #eee;border-radius:10px;padding:14px;margin-bottom:18px;">
+      <h2 id="bascimix" style="margin:0 0 8px 0;font-size:18px;color:#0b6efd;">BASCIMIX</h2>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <div style="flex:1 1 320px;min-width:260px;">
+          <p style="margin:0 0 8px 0;color:#333;font-size:14px;"><strong>R&amp;D:</strong> Ajinkya Terkar &amp; Dr. Mahesh Y. Borde — Design Innovation Centre, SPPU</p>
+          <p style="margin:6px 0;color:#444;font-size:13px;">Introduction: PGPR bacilli (endospore-forming) are stable bioinoculants that promote plant growth and biological control. Bascimix leverages these traits for improved soil &amp; crop performance.</p>
+          <div style="margin-top:10px;">
+            <img src="bascimix.png" alt="Bascimix" style="width:100%;height:180px;object-fit:cover;border-radius:8px;display:block;">
+          </div>
+        </div>
+
+        <div style="flex:1 1 420px;min-width:260px;">
+          <h3 style="margin:0 0 8px 0;font-size:15px;color:#0b6efd;">Advantages</h3>
+          <ul style="margin:0 0 0 18px;color:#333;font-size:14px;line-height:1.6;">
+            <li>Mobilizes insoluble potash.</li>
+            <li>Improves soil properties.</li>
+            <li>Increases brix level and fruit quality.</li>
+            <li>Increases yield by ~20% (field dependent).</li>
+            <li>Improves water uptake and root development.</li>
+          </ul>
+
+          <h3 style="margin:12px 0 8px 0;font-size:15px;color:#0b6efd;">Target Crops</h3>
+          <ul style="margin:0 0 0 18px;color:#333;font-size:14px;line-height:1.6;">
+            <li>Jowar</li>
+            <li>Bajra</li>
+            <li>Wheat</li>
+            <li>Maize</li>
+            <li>Paddy</li>
+            <li>Cotton</li>
+            <li>Sugarcane</li>
+            <li>Vegetables</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- contact footer line -->
+    <div style="font-size:13px;color:#666;padding-top:6px;">
+      <div>For more information contact the Design Innovation Centre (DIC-Sppu).</div>
+    </div>
+
+  </main>
+</body>
+
+</html>

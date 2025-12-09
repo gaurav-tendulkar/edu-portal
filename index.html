@@ -4,11 +4,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="/css/test.css" />
   <title>Fellowships — Demo</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="./css/header.css"> 
 </head>
 
 <body>
+  <!-- ======================== HEADER START ==================================== -->
   <!-- top utility bar -->
   <div class="topbar">
     <div class="container">
@@ -36,9 +38,9 @@
 
       <div class="partners" aria-hidden="true">
         <!-- partner logos -->
-        <img src="https://via.placeholder.com/150x48?text=BHU" alt="">
-        <img src="https://via.placeholder.com/160x48?text=IIT+BHU" alt="">
-        <img src="https://via.placeholder.com/160x48?text=Ministry" alt="">
+        <img src="https://via.placeholder.com/150x48?text=BHU" alt="test">
+        <img src="https://via.placeholder.com/160x48?text=IIT+BHU" alt="test">
+        <img src="https://via.placeholder.com/160x48?text=Ministry" alt="test">
       </div>
     </div>
   </div>
@@ -49,19 +51,50 @@
       <nav class="navbar" role="navigation" aria-label="Main">
         <button class="nav-toggle" id="navToggle" aria-expanded="false">☰</button>
         <div class="nav-links" id="navLinks">
-          <a href="#">HOME</a>
-          <a href="#">ABOUT</a>
+          <a href="index.html" class="subfield">HOME</a>
+
+          <div class="nav-dropdown">
+            <a href="#">ABOUT ORGANIZATION </a>
+            <div class="dropdown-menu">
+              <a href="/Pages/iic.html" class="subfield">IIC</a>
+
+            </div>
+          </div>
           <!-- <a href="#">ALL INDIA DIC</a> -->
-          <a href="#">WE PROVIDE</a>
-          <a href="#">OUR WORK</a>
-          <a href="#">EXPLORE MORE</a>
-          <a href="#">CONNECT WITH US</a>
+          <div class="nav-dropdown">
+            <a href="#">WE PROVIDE</a>
+            <div class="dropdown-menu">
+              <a href="/Pages/services.html" class="subfield">Services </a>
+              <a href="/Pages/course.html" class="subfield">Course</a>
+              <a href="/Pages/others.html" class="subfield">others</a>
+            </div>
+          </div>
+
+          <div class="nav-dropdown">
+            <a href="#">OUR WORK</a>
+            <div class="dropdown-menu">
+              <a href="/Pages/project.html" class="subfield">Project</a>
+              <a href="/Pages/market_ready_project.html" class="subfield">Market Ready Product</a>
+              <a href="/Pages/start_up.html" class="subfield">Start Up</a>
+            </div>
+          </div>
+
+          <div class="nav-dropdown">
+            <a href="#">EXPLORE MORE</a>
+            <div class="dropdown-menu">
+              <a href="/Pages/gallery.html" class="subfield">Gallery</a>
+              <a href="/Pages/activities_events.html" class="subfield">Activities & Events</a>
+              <a href="/Pages/press_release.html" class="subfield">Press Release </a>
+            </div>
+          </div>
+          <a href="/Pages/connect_with_us.html" class="subfield">CONNECT WITH US</a>
         </div>
         <div class="nav-right">
           <!-- small social icons -->
           <a href="#" aria-label="facebook">f</a>
           <a href="#" aria-label="twitter">t</a>
-          <a href="#" aria-label="linkedin">in</a>
+          <a href="https://www.linkedin.com/company/design-innovation-centre-sppu/" target="_blank"
+            aria-label="linkedin">in</a>
         </div>
       </nav>
     </div>
@@ -80,37 +113,145 @@
   <section class="hero" id="hero" style="background-image: url('hero.jpg');">
     <div class="container hero-inner">
       <div class="hero-left">
-        <h1>Fellowships</h1>
-        <div class="subtitle">DIC SPPU &amp; IIT (BHU)</div>
-        <div class="breadcrumb">Home &nbsp; - &nbsp; Fellowships</div>
-      </div>
-
-      <div class="hero-right">
-        <button class="events-btn" onclick="location.href='#events'">Latest Events</button>
+        <h1 id="pageTitle">Home</h1>
+        <div class="subtitle">DIC SPPU</div>
+        <div class="breadcrumb">Home &nbsp; - &nbsp; THE DESIGN INNOVATION CENTRE (DIC)</div>
       </div>
     </div>
   </section>
 
-  <!-- main content -->
-  <main>
-    <div class="container">
-      <h2 class="page-title">Fellowships</h2>
+  <!-- =========================== HEADER END ================================ -->
 
-      <p>
-        <!-- sample content -->
-        This is placeholder content for the Fellowships page. Replace this with real content.
+
+  <!-- ==================== main content Start ========================================= -->
+<main style="max-width:1100px;margin:20px auto;padding:18px;box-sizing:border-box;">
+
+  <!-- INTRODUCTION -->
+  <section style="margin-bottom:24px;">
+    <h1 style="margin:0 0 8px 0;font-size:22px;color:#0b6efd;">Introduction : DIC — A link between SPPU Faculty, Spoke Centers and Industry Partners</h1>
+
+    <p style="line-height:1.6;font-size:14px;color:#333;">
+      The SPPU faculties are actively working in the research areas of chemical, physical, life sciences,
+      social sciences, humanities and art. Due to strong contribution in teaching and research, the university
+      is recognized as the ‘University with Potential of Excellence’ by the UGC.
+      <br><br>
+      SPPU conducts various postgraduate programmes in basic sciences, social sciences, humanities, arts and languages,
+      along with undergraduate programmes in Biotechnology and Bioinformatics. Additionally, many certificate and
+      diploma courses are offered at undergraduate level.
+      <br><br>
+      Students benefit from well-established facilities including Library, Sports Complex, Hostel, Counselling Cell,
+      Reading Hall and Health Centre. This expertise, along with Spoke Centers, supports prototype development emerging
+      from research programmes — strengthening the link between academia, industries and end-users.
+      <br><br>
+      With active participation of University Faculty and Spoke Centers, numerous innovative ideas are envisioned and
+      executed, leading to prototype development and sustainable continuation of DIC activities.
+    </p>
+  </section>
+
+  <!-- PARTICIPATION STATUS -->
+  <section style="margin-bottom:24px;">
+    <h2 style="margin:0 0 10px 0;font-size:20px;color:#0b6efd;">Participation Status</h2>
+
+    <p style="line-height:1.6;font-size:14px;color:#333;">
+      The Design Innovation Centre (DIC) at SPPU has been established since 2015 as a DIC Hub Centre with
+      three Spoke Centres located at Vigyan Ashram (Pabal), Ahmednagar and Nashik.
+      <br><br>
+      The centre received a sanction of <strong>Rs. 10 Crore</strong> under the MHRD-GOI scheme
+      “National Initiative for setting up of Design Innovation Centres, Open Design School & National Design Innovation Network”.
+    </p>
+  </section>
+
+  <!-- MEMBERS LIST -->
+  <section style="margin-bottom:24px;">
+    <h2 style="margin:0 0 10px 0;font-size:20px;color:#0b6efd;">DIC — SPPU Members</h2>
+
+    <ul style="margin:0 0 0 18px;padding:0;line-height:1.6;font-size:14px;color:#333;">
+      <li>Prof. (Dr.) Nitin R. Karmalkar — Hon. Vice Chancellor, SPPU</li>
+      <li>Prof. (Dr.) Arvind D. Shaligram — Coordinator, DIC-SPPU; Dean, Science & Technology, SPPU</li>
+      <li>Prof. (Dr.) Dilip D. Dhavale — Ex-Coordinator, DIC-SPPU</li>
+      <li>Dr. Pooja J. Doshi — Co-Coordinator, DIC-SPPU</li>
+      <li>Dr. Avinash Joshi — CEO, Research Park Foundation, SPPU</li>
+      <li>Prof. (Dr.) M. V. Kulkarni</li>
+      <li>Prof. (Dr.) Raymond Duraiswami</li>
+      <li>Prof. (Dr.) Sujata Bhargava</li>
+      <li>Prof. (Dr.) S. W. Gosavi</li>
+      <li>Dr. Mahesh Borde</li>
+      <li>Dr. Hemlata Kotkar</li>
+      <li>Appointed Research Staff – 13</li>
+      <li>DIC Office Staff – 03</li>
+    </ul>
+  </section>
+
+  <!-- HUB DETAILS -->
+  <section style="margin-bottom:24px;padding:14px;border:1px solid #e3e3e3;border-radius:10px;background:#fafafa;">
+    <h2 style="margin:0;font-size:20px;color:#0b6efd;">Hub Centre : Savitribai Phule Pune University (SPPU)</h2>
+
+    <p style="font-size:14px;line-height:1.6;color:#333;margin-top:10px;">
+      <strong>Starting Date:</strong> 1st April 2016<br><br>
+
+      <strong>Principal Coordinator:</strong><br>
+      Prof. Arvind D. Shaligram  
+      <br>Coordinator, DIC-SPPU, Dean, Science & Technology, SPPU  
+      <br>President-IIC, SPPU  
+      <br>Email: ads@electronics.unipune.ac.in , adshaligram@gmail.com  
+      <br>Phone: +91 9373318687
+      <br><br>
+
+      <strong>Co-Coordinator:</strong><br>
+      Dr. Pooja J. Doshi  
+      <br>Asst. Professor, Dept. of Chemistry, SPPU  
+      <br>Email: pdoshi@chem.unipune.ac.in  
+      <br>Phone: +91 9545588772
+      <br><br>
+
+      SPPU is one of the largest universities in Maharashtra with more than 660 affiliated colleges across  
+      Pune, Ahmednagar and Nashik. This structure enables SPPU to function as a HUB with SPOKES at three centers.
+    </p>
+  </section>
+
+  <!-- SPOKE CENTERS -->
+  <section style="margin-bottom:24px;">
+    <h2 style="margin:0 0 10px 0;font-size:20px;color:#0b6efd;">Spoke Centers</h2>
+
+    <!-- SPOKE 1 -->
+    <div style="margin-bottom:16px;padding:14px;border:1px solid #eee;border-radius:10px;background:#fff;">
+      <h3 style="margin:0 0 6px 0;font-size:16px;color:#0b6efd;">1. Indian Institute of Education, Vigyan Ashram, Pabal</h3>
+      <p style="margin:6px 0;font-size:14px;line-height:1.6;color:#333;">
+        <strong>Starting Date:</strong> September 2015<br>
+        <strong>Address:</strong> Vigyan Ashram, Pabal, Dist. Pune – 412403<br>
+        <strong>Coordinator:</strong> Dr. Yogesh Kulkarni<br>
+        <strong>Email:</strong> vapabal@gmail.com<br>
+        <strong>Phone:</strong> 9730005016
       </p>
-
-      <section id="events" style="margin-top:32px">
-        <h3>Latest Events</h3>
-        <ul>
-          <li>Event 1 — Date</li>
-          <li>Event 2 — Date</li>
-          <li>Event 3 — Date</li>
-        </ul>
-      </section>
     </div>
-  </main>
+
+    <!-- SPOKE 2 -->
+    <div style="margin-bottom:16px;padding:14px;border:1px solid #eee;border-radius:10px;background:#fff;">
+      <h3 style="margin:0 0 6px 0;font-size:16px;color:#0b6efd;">2. Maratha Vidya Prasarak Samaj College of Architecture & Centre for Design, Nashik</h3>
+      <p style="margin:6px 0;font-size:14px;line-height:1.6;color:#333;">
+        <strong>Starting Date:</strong> August 2016<br>
+        <strong>Address:</strong> MVPS College of Architecture & Centre for Design, Gangapur Road, Nashik<br>
+        <strong>Coordinator:</strong> Dr. Suvarna Patil<br>
+        <strong>Email:</strong> suvarnaeera@gmail.com<br>
+        <strong>Phone:</strong> 9422256023
+      </p>
+    </div>
+
+    <!-- SPOKE 3 -->
+    <div style="margin-bottom:16px;padding:14px;border:1px solid #eee;border-radius:10px;background:#fff;">
+      <h3 style="margin:0 0 6px 0;font-size:16px;color:#0b6efd;">3. PVP College of Arts, Science & Commerce, Pravaranagar, Ahmednagar</h3>
+      <p style="margin:6px 0;font-size:14px;line-height:1.6;color:#333;">
+        <strong>Starting Date:</strong> March 2018<br>
+        <strong>Address:</strong> PVP College, Pravaranagar, Tal Rahata, Dist Ahmednagar – 413713<br>
+        <strong>Coordinator:</strong> Dr. Hrishikesh Autade<br>
+        <strong>Email:</strong> pvpcollege@gmail.com<br>
+        <strong>Phone:</strong> 9960553407
+      </p>
+    </div>
+
+  </section>
+
+</main>
 
   <script>
     // mobile nav toggle
@@ -127,6 +268,10 @@
       // currently not used, but kept for easy extension
     }
     window.addEventListener('resize', setHeroPadding);
+
+
+    //================================================================    
+
   </script>
 </body>
 

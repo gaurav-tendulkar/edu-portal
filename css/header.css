@@ -1,4 +1,33 @@
 
+    /* ===== MOVABLE HEADER ===== */
+    .topbar,
+    .logostrip,
+    .navwrap {
+      position: relative;
+      width: 100%;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .topbar {
+      top: auto;
+    }
+
+    .logostrip {
+      top: auto;
+    }
+
+    /* height of topbar */
+    .navwrap {
+      top: auto;
+    }
+
+
+    /* No top margin needed since header is not fixed */
+    .hero {
+      margin-top: 0;
+    }
+
     /* Reset & helpers */
     *,
     *::before,
@@ -130,10 +159,62 @@
       padding: 6px 10px;
     }
 
+    /* ===== DROPDOWN MENU STYLING ===== */
+
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown>a {
+      text-decoration: none;
+      padding: 10px 14px;
+      display: inline-block;
+      color: #faf8f8;
+      font-weight: 600;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 180px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      border-radius: 6px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: 0.3s ease;
+      z-index: 999;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .dropdown-menu a:hover {
+      background: #d12b2b;
+      color: white;
+    }
+
+    /* SHOW ON HOVER */
+    .nav-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+
     /* HERO */
     .hero {
       position: relative;
-      min-height: 420px;
+      min-height: 200px;
       display: flex;
       align-items: flex-end;
       color: #fff;
